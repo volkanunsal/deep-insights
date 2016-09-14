@@ -15,7 +15,8 @@ module.exports = cdb.core.Model.extend({
   },
 
   defaultState: {
-    'collapsed': false
+    'collapsed': false,
+    showInLeftSidebar: false
   },
 
   initialize: function (attrs, opts) {
