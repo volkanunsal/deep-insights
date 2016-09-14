@@ -99,8 +99,8 @@ Dashboard.prototype = {
    * @param ...
    * @return {CategoryWidget} The new widget
    */
-  createCategoryWidget: function (widgetAttrs, layer) {
-    return this._dashboard.widgets.createCategoryModel(widgetAttrs, layer);
+  createCategoryWidget: function (widgetAttrs, layer, state) {
+    return this._dashboard.widgets.createCategoryModel(widgetAttrs, layer, state);
   },
 
   /**
@@ -112,8 +112,8 @@ Dashboard.prototype = {
    * @param ...
    * @return {HistogramWidget} The new widget
    */
-  createHistogramWidget: function (widgetAttrs, layer) {
-    return this._dashboard.widgets.createHistogramModel(widgetAttrs, layer);
+  createHistogramWidget: function (widgetAttrs, layer, state) {
+    return this._dashboard.widgets.createHistogramModel(widgetAttrs, layer, state);
   },
 
   /**
@@ -125,8 +125,8 @@ Dashboard.prototype = {
    * @param ...
    * @return {FormulaWidget} The new widget
    */
-  createFormulaWidget: function (widgetAttrs, layer) {
-    return this._dashboard.widgets.createFormulaModel(widgetAttrs, layer);
+  createFormulaWidget: function (widgetAttrs, layer, state) {
+    return this._dashboard.widgets.createFormulaModel(widgetAttrs, layer, state);
   },
 
   /**
@@ -138,8 +138,8 @@ Dashboard.prototype = {
    * @param ...
    * @return {TimeSeriesWidget} The new widget
    */
-  createTimeSeriesWidget: function (widgetAttrs, layer) {
-    return this._dashboard.widgets.createTimeSeriesModel(widgetAttrs, layer);
+  createTimeSeriesWidget: function (widgetAttrs, layer, state) {
+    return this._dashboard.widgets.createTimeSeriesModel(widgetAttrs, layer, state);
   }
 
 };

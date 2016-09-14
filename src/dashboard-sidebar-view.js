@@ -100,7 +100,7 @@ module.exports = cdb.core.View.extend({
     var view = this._widgetViewFactory.createWidgetView(widgetModel);
     // Check if the widgetModel includes a location preference, e.g.
     // sidebar1 or sidebar2.
-    if (view && !widgetModel.get('showInLeftSidebar')) {
+    if (view && !widgetModel.get('show_in_left_sidebar')) {
       this.addView(view);
       this._$container().append(view.render().el);
     }
