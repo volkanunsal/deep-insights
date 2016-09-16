@@ -1,4 +1,5 @@
 module.exports = {
   VERSION: require('../package.json').version,
-  createDashboard: require('./api/create-dashboard')
+  createDashboard: require('./api/create-dashboard'),
+  Ps: require('perfect-scrollbar')
 };

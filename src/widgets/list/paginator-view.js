@@ -11,7 +11,7 @@ module.exports = cdb.core.View.extend({
     '<button class="CDB-Shape-arrow CDB-Shape-arrow--up js-up"></button>' +
     '<button class="CDB-Shape-arrow CDB-Shape-arrow--down js-down"></button>' +
     '</div>',
-
+    
   events: {
     'click .js-up': '_scrollUp',
     'click .js-down': '_scrollDown'
