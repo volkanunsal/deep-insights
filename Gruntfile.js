@@ -78,8 +78,8 @@ module.exports = function (grunt) {
     'concat',
     'cssmin',
     'imagemin',
-    'browserify',
-    'build-jasmine-specrunners'
+    'browserify'
+    // , 'build-jasmine-specrunners'
   ];
 
   grunt.registerTask('default', ['build']);

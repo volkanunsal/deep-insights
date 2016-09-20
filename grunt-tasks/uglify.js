@@ -4,7 +4,7 @@ var browserify = require('./browserify');
 var cfg = {};
 
 var defaultOptions = {
-  sourceMap: true
+  sourceMap: false
 };
 
 for (var name in browserify) {
@@ -16,9 +16,9 @@ for (var name in browserify) {
     files[uglifiedDest] = src;
 
     cfg[name] = {
-      options: _.extend({
-        sourceMapIn: src.replace('.js', '.map')
-      }, defaultOptions),
+      // options: _.extend({
+      //   sourceMapIn: src.replace('.js', '.map')
+      // }, defaultOptions),
       files: files
     };
   }

@@ -2,48 +2,15 @@ var _ = require('underscore');
 var $ = require('jquery');
 var Ps = require('perfect-scrollbar');
 var cdb = require('cartodb.js');
-var CategoryContentView = require('./widgets/category/content-view');
-var FormulaContentView = require('./widgets/formula/content-view');
-var HistogramContentView = require('./widgets/histogram/content-view');
-var ListContentView = require('./widgets/list/content-view');
-var WidgetViewFactory = require('./widgets/widget-view-factory');
+
 var template = require('./dashboard-sidebar.tpl');
+var WidgetViewService = require('./widget-view-service');
 
 module.exports = cdb.core.View.extend({
   className: 'CDB-Widget-canvas',
 
   initialize: function (options) {
-    this._widgetViewFactory = new WidgetViewFactory([
-      {
-        type: 'formula',
-        createContentView: function (widgetModel) {
-          return new FormulaContentView({
-            model: widgetModel
-          });
-        }
-      }, {
-        type: 'list',
-        createContentView: function (widgetModel) {
-          return new ListContentView({
-            model: widgetModel
-          });
-        }
-      }, {
-        type: 'histogram',
-        createContentView: function (widgetModel) {
-          return new HistogramContentView({
-            model: widgetModel
-          });
-        }
-      }, {
-        type: 'category',
-        createContentView: function (widgetModel) {
-          return new CategoryContentView({
-            model: widgetModel
-          });
-        }
-      }
-    ]);
+    this._widgetViewFactory = new WidgetViewService();
 
     this._widgets = options.widgets;
 
@@ -51,6 +18,7 @@ module.exports = cdb.core.View.extend({
     this._widgets.bind('reset', this.render, this);
     this._widgets.bind('orderChanged', this.render, this);
     this._widgets.bind('change:collapsed', this._onWidgetCollapsed, this);
+    this._widgets.bind('change:enabled change:visible', this._maybeRenderWidgetView, this);
     this._widgets.bind('add remove reset', this._onUpdate, this); // have to be called _after_ any other add/remove/reset
     this.add_related_model(this._widgets);
 
@@ -64,7 +32,8 @@ module.exports = cdb.core.View.extend({
     this.$el.html(template());
     this.$el.toggleClass('CDB-Widget-canvas--withMenu', this.model.get('renderMenu'));
     this._widgets.each(this._maybeRenderWidgetView, this);
-    this.$el.toggle(!_.isEmpty(this._subviews));
+
+    this.$el.toggle(!_.isEmpty(this._subviews) || this._widgets.some(function(o){ return o.get('enabled')}));
 
     this._renderScroll();
     this._renderShadows();
@@ -99,10 +68,19 @@ module.exports = cdb.core.View.extend({
   _maybeRenderWidgetView: function (widgetModel) {
     var view = this._widgetViewFactory.createWidgetView(widgetModel);
 
-    if (view && widgetModel.get('enabled') && widgetModel.get('visible')) {
-      this.addView(view);
-      this._$container().append(view.render().el);
+    if (view) {
+
+      view.cid = widgetModel.get('id')
+
+      if (widgetModel.get('enabled') && widgetModel.get('visible') && !this._subviews[view.cid]) {
+        this.addView(view);
+        this._$container().append(view.render().el);
+      } else {
+        // This doesn't actually remove the HTML, unfortunately.
+        this.removeView(view);
+      }
     }
+
   },
 
   _bindScroll: function () {
@@ -182,7 +160,7 @@ module.exports = cdb.core.View.extend({
   },
 
   _onUpdate: function () {
-    this.$el.toggle(_.size(this._subviews) > 0);
+    this.$el.toggle(_.size(this._subviews) > 0 || this._widgets.some(function(o){ return o.get('enabled')}));
   },
 
   clean: function () {
