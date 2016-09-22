@@ -42,12 +42,12 @@ module.exports = cdb.core.View.extend({
       .toggleClass('CDB-Dashboard-mapWrapper--withMenu', doRenderMenu)
       .append(view.render().el);
 
-    view = new DashboardSidebarView({
-      widgets: this._widgets,
-      model: this.model
-    });
-    this.addView(view);
-    this.$el.append(view.render().el);
+    // view = new DashboardSidebarView({
+    //   widgets: this._widgets,
+    //   model: this.model
+    // });
+    // this.addView(view);
+    // this.$el.append(view.render().el);
     return this;
   },
   getInitialMapState: function () {
