@@ -58,7 +58,7 @@ var createDashboard = function (selector, vizJSON, opts, callback) {
   var vis = cdb.createVis(dashboardView.$('#map'), vizJSON, _.extend(opts, {
     skipMapInstantiation: true
   }));
-
+  
   vis.once('load', function (vis) {
     if (!_.isEmpty(stateFromURL.map)) {
       vis.map.setView(stateFromURL.map.center, stateFromURL.map.zoom);
