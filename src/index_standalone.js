@@ -5,6 +5,6 @@ cdb.deepInsights = {
   createDashboard: require('./api/create-dashboard'),
   Ps: require('perfect-scrollbar'),
   WidgetViewService: require('./widget-view-service'),
-  AnimateValues: require('./widgets/animate-values.js')
+  CartoColor: require('cartocolor')
 };
 module.exports = cdb;
